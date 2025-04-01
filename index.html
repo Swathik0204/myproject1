@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#orders">Orders</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home">
+        <h1>Welcome to Our Restaurant</h1>
+        <p>Experience the finest dining with a wide variety of dishes.</p>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <h2>Our Menu</h2>
+        <div class="menu-item">
+            <h3>Spaghetti Bolognese</h3>
+            <p>Classic spaghetti with a rich meat sauce.</p>
+            <p>Price: $12.99</p>
+            <button onclick="addToOrder('Spaghetti Bolognese', 12.99)">Add to Order</button>
+        </div>
+        <div class="menu-item">
+            <h3>Grilled Chicken</h3>
+            <p>Juicy grilled chicken served with vegetables.</p>
+            <p>Price: $15.99</p>
+            <button onclick="addToOrder('Grilled Chicken', 15.99)">Add to Order</button>
+        </div>
+        <div class="menu-item">
+            <h3>Vegetable Stir-fry</h3>
+            <p>Stir-fried vegetables with a soy sauce glaze.</p>
+            <p>Price: $10.99</p>
+            <button onclick="addToOrder('Vegetable Stir-fry', 10.99)">Add to Order</button>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section id="orders">
+        <h2>Your Order</h2>
+        <div id="order-list">
+            <p>No items in your order yet.</p>
+        </div>
+        <button onclick="submitOrder()">Submit Order</button>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form action="submit_contact_form.php" method="POST">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Restaurant Management System</p>
+    </footer>
+
+    <script>
+        // Order functionality
+        let orderList = [];
+
+        function addToOrder(item, price) {
+            const orderItem = { item, price };
+            orderList.push(orderItem);
+            displayOrder();
+        }
+
+        function displayOrder() {
+            const orderListDiv = document.getElementById('order-list');
+            if (orderList.length === 0) {
+                orderListDiv.innerHTML = '<p>No items in your order yet.</p>';
+            } else {
+                orderListDiv.innerHTML = '';
+                orderList.forEach((order, index) => {
+                    orderListDiv.innerHTML += `<p>${order.item} - $${order.price.toFixed(2)} <button onclick="removeFromOrder(${index})">Remove</button></p>`;
+                });
+            }
+        }
+
+        function removeFromOrder(index) {
+            orderList.splice(index, 1);
+            displayOrder();
+        }
+
+        function submitOrder() {
+            if (orderList.length === 0) {
+                alert("Please add items to your order.");
+                return;
+            }
+            alert("Your order has been submitted!");
+            orderList = [];
+            displayOrder();
+        }
+    </script>
+</body>
+</html>
